@@ -1,0 +1,24 @@
+
+{
+  "questions": [
+    {
+      "id": "SRTC-LAW-0001",
+      "question": "Nội dung câu hỏi lấy từ nguồn ngân hàng đề được phép sử dụng",
+      "options": [
+        "Phương án A",
+        "Phương án B",
+        "Phương án C",
+        "Phương án D"
+      ],
+      "answer": 1,
+      "explanation": "Giải thích đáp án sau khi đối chiếu văn bản pháp luật.",
+      "category": "law",
+      "topic": "Luật Chứng khoán",
+      "difficulty": "advanced",
+      "source_name": "Tên tài liệu hoặc ngân hàng đề",
+      "source_url": "https://example.com/source",
+      "law_reference": "Văn bản và điều khoản cần đối chiếu",
+      "verified": false
+    }
+  ]
+}
