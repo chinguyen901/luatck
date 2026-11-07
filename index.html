@@ -1,0 +1,536 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101b35">
+<title>Chứng Khoán Academy | Ôn thi Luật Chứng khoán</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#101b35;
+  --navy2:#192847;
+  --blue:#4263eb;
+  --blue2:#edf1ff;
+  --gold:#f2bd58;
+  --bg:#f4f6fb;
+  --text:#1b2540;
+  --muted:#78839a;
+  --green:#15966b;
+  --red:#d94c58;
+  --border:#e8ebf2;
+  --shadow:0 12px 35px rgba(24,39,75,.07);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:'Be Vietnam Pro',sans-serif;color:var(--text)}
+button{font-family:inherit;cursor:pointer}
+.app{min-height:100vh}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:245px;background:var(--navy);color:white;padding:28px 20px;display:flex;flex-direction:column;z-index:10}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:17px;margin-bottom:45px}
+.brand-icon{width:40px;height:40px;border-radius:13px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:25px;font-weight:800}
+.brand small{display:block;color:#9eacc8;font-size:11px;font-weight:500}
+.side-label{font-size:10px;letter-spacing:2px;color:#7e8ba7;margin:0 0 12px 10px}
+.nav{border:0;background:transparent;color:#b8c3d9;text-align:left;padding:13px 14px;border-radius:10px;margin:3px 0;font-size:13px}
+.nav.active,.nav:hover{background:#263758;color:white}
+.sidebar-note{margin-top:auto;background:#1b2a49;padding:15px;border-radius:12px;font-size:12px;line-height:1.8;color:#c7d1e5}
+.sidebar-note strong{color:var(--gold)}
+.sidebar-foot{font-size:10px;color:#7e8ba7;margin-top:20px;line-height:1.6}
+.main{margin-left:245px;padding:0 38px 45px;max-width:1600px}
+.topbar{height:86px;display:flex;align-items:center;justify-content:space-between}
+.eyebrow{font-size:10px;color:var(--blue);letter-spacing:2px;font-weight:800}
+.top-title{font-size:17px;font-weight:800;margin-top:4px}
+.status{font-size:11px;color:var(--green);background:#e7f7f0;padding:9px 13px;border-radius:30px}
+.view{display:none}.view.active{display:block}
+.hero{background:linear-gradient(120deg,#14213e,#253e6b);border-radius:22px;padding:42px 45px;color:white;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative;min-height:270px}
+.hero:after{content:"§";position:absolute;right:9%;top:-85px;font-size:370px;color:rgba(255,255,255,.035);font-weight:800}
+.hero-content{position:relative;z-index:1;max-width:590px}
+.hero-tag{font-size:10px;letter-spacing:2px;color:var(--gold);font-weight:800}
+.hero h1{font-size:34px;line-height:1.35;margin:16px 0 10px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{font-size:13px;color:#c4cfe3;line-height:1.8;max-width:500px}
+.btn{border:0;border-radius:10px;padding:12px 19px;font-weight:700;font-size:12px;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-gold{background:var(--gold);color:#17233e;margin-top:12px}
+.btn-blue{background:var(--blue);color:white}
+.btn-light{background:white;color:var(--navy)}
+.btn-outline{background:white;border:1px solid var(--border);color:var(--text)}
+.hero-stat{position:relative;z-index:1;border:1px solid #52617d;border-radius:18px;padding:20px 28px;text-align:center;background:#ffffff0c}
+.hero-stat strong{font-size:44px;color:var(--gold);display:block}
+.hero-stat span{font-size:10px;letter-spacing:2px;color:#c4cfe3}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:30px 0 16px}
+.section-head h2{font-size:17px;margin:0}
+.section-head p{font-size:11px;color:var(--muted);margin:5px 0 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.card{background:white;border:1px solid var(--border);border-radius:16px;padding:23px;box-shadow:var(--shadow)}
+.mode-card{display:flex;gap:16px;align-items:flex-start}
+.mode-icon{width:46px;height:46px;border-radius:13px;background:var(--blue2);display:grid;place-items:center;font-size:21px;flex-shrink:0}
+.mode-card h3{font-size:14px;margin:1px 0 7px}
+.mode-card p{font-size:11px;color:var(--muted);line-height:1.7;margin:0 0 13px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:17px}
+.stat-card{background:white;border:1px solid var(--border);border-radius:14px;padding:18px}
+.stat-card strong{font-size:25px;display:block}
+.stat-card span{font-size:10px;color:var(--muted)}
+.disclaimer{margin-top:18px;padding:15px 18px;border-radius:12px;background:#fff8e9;color:#8c6722;font-size:11px;line-height:1.7}
+.setup{max-width:850px;margin:25px auto}
+.setup h2{font-size:23px}
+.setup-intro{font-size:12px;color:var(--muted);line-height:1.7}
+.field{margin:24px 0}
+.field label{display:block;font-weight:700;font-size:12px;margin-bottom:11px}
+.choice-row{display:flex;gap:10px;flex-wrap:wrap}
+.choice{border:1px solid var(--border);background:white;border-radius:10px;padding:12px 18px;font-size:12px;color:var(--text)}
+.choice.selected{border:2px solid var(--blue);background:var(--blue2);color:var(--blue);font-weight:800}
+.check-row{display:flex;align-items:center;gap:9px;font-size:12px;color:#56617a}
+select{padding:11px;border:1px solid var(--border);border-radius:9px;font-family:inherit}
+.quiz-top{display:flex;justify-content:space-between;align-items:center;margin:20px 0}
+.progress-wrap{height:7px;background:#e5e9f2;border-radius:20px;overflow:hidden;margin:12px 0 25px}
+.progress{height:100%;width:0;background:var(--blue);transition:.3s}
+.quiz-layout{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:18px}
+.question-card{background:white;border:1px solid var(--border);border-radius:16px;padding:28px;box-shadow:var(--shadow)}
+.question-meta{display:flex;gap:8px;align-items:center;margin-bottom:18px}
+.pill{font-size:10px;padding:6px 9px;border-radius:20px;background:var(--blue2);color:var(--blue);font-weight:700}
+.pill.gray{background:#f0f2f6;color:#6d7890}
+.question-text{font-size:17px;font-weight:700;line-height:1.7;margin-bottom:22px}
+.answers{display:grid;gap:11px}
+.answer{width:100%;text-align:left;background:white;border:1px solid var(--border);border-radius:11px;padding:14px;display:flex;gap:12px;align-items:flex-start;font-size:12px;line-height:1.7;color:var(--text)}
+.answer:hover{border-color:var(--blue);background:#f9faff}
+.answer .letter{width:25px;height:25px;display:grid;place-items:center;border-radius:7px;background:#f0f2f7;font-weight:800;flex-shrink:0}
+.answer.selected{border:2px solid var(--blue);background:var(--blue2)}
+.answer.correct{border:2px solid var(--green);background:#edfaf4}
+.answer.wrong{border:2px solid var(--red);background:#fff1f1}
+.explanation{display:none;margin-top:18px;border-radius:12px;padding:17px;background:#f0f8f5;border:1px solid #cdeadd;font-size:12px;line-height:1.8}
+.explanation.show{display:block}
+.explanation.wrong-explain{background:#fff5f3;border-color:#f2d5d0}
+.explanation strong{display:block;margin-bottom:6px}
+.quiz-actions{display:flex;justify-content:space-between;gap:10px;margin-top:24px}
+.panel{background:white;border:1px solid var(--border);border-radius:16px;padding:19px;height:max-content}
+.panel h3{font-size:12px;margin:0 0 15px}
+.q-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.q-number{height:34px;border:1px solid var(--border);border-radius:8px;background:white;font-size:10px;color:#68748a}
+.q-number.current{background:var(--blue);color:white;border-color:var(--blue)}
+.q-number.done{background:#e8f7f0;color:var(--green);border-color:#c8ebdb}
+.q-number.incorrect{background:#fff0f0;color:var(--red);border-color:#f4d1d1}
+.timer{font-weight:800;font-size:17px;color:var(--blue)}
+.result-hero{text-align:center;padding:35px 20px;background:white;border-radius:18px;border:1px solid var(--border)}
+.score-circle{width:130px;height:130px;border-radius:50%;border:9px solid #e8edff;display:grid;place-items:center;margin:20px auto;color:var(--blue)}
+.score-circle strong{font-size:34px}
+.result-hero h2{margin:10px 0}
+.result-hero p{font-size:12px;color:var(--muted)}
+.review-list{display:grid;gap:12px;margin-top:18px}
+.review-item{background:white;border:1px solid var(--border);border-radius:12px;padding:17px;font-size:12px;line-height:1.8}
+.review-item .status-text{font-weight:800;margin-bottom:7px}
+.history-item{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding:15px 0;font-size:12px}
+.empty{text-align:center;color:var(--muted);padding:35px;font-size:12px}
+.footer{text-align:center;color:#9aa3b4;font-size:10px;margin-top:35px}
+@media(max-width:900px){
+ .sidebar{width:70px;padding:20px 10px}
+ .brand{justify-content:center;margin-bottom:35px}.brand-text,.side-label,.nav span,.sidebar-note,.sidebar-foot{display:none}
+ .nav{text-align:center;font-size:0;padding:14px 5px}.nav:after{content:attr(data-symbol);font-size:18px}
+ .main{margin-left:70px;padding:0 20px 35px}
+ .quiz-layout{grid-template-columns:1fr}.panel{order:-1}
+ .q-grid{grid-template-columns:repeat(10,1fr)}
+}
+@media(max-width:600px){
+ .main{padding:0 13px 25px}
+ .topbar{height:72px}.top-title{font-size:14px}.status{font-size:9px}
+ .hero{padding:27px 22px;min-height:0}.hero h1{font-size:26px}.hero-stat{display:none}
+ .grid{grid-template-columns:1fr}.stats{gap:7px}
+ .stat-card{padding:13px}.stat-card strong{font-size:20px}
+ .question-card{padding:18px}.question-text{font-size:15px}
+ .q-grid{grid-template-columns:repeat(8,1fr)}
+ .quiz-top{font-size:11px}
+ .quiz-actions .btn{padding:11px 12px;font-size:10px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-icon">§</div>
+    <div class="brand-text">Chứng Khoán<small>ACADEMY</small></div>
+  </div>
+  <div class="side-label">HỌC TẬP</div>
+  <button class="nav active" data-view="home" data-symbol="⌂">⌂　Tổng quan</button>
+  <button class="nav" data-view="history" data-symbol="◷">◷　Lịch sử làm bài</button>
+  <div class="sidebar-note"><strong>● V1.0</strong><br>Bộ câu hỏi mẫu<br>Ôn tập kiến thức pháp luật</div>
+  <div class="sidebar-foot">Nền tảng tự học.<br>Không phải đề thi chính thức.</div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <div><div class="eyebrow">LEARN · PRACTICE · MASTER</div><div class="top-title">Ôn thi Luật Chứng khoán</div></div>
+  <div class="status">● Hệ thống sẵn sàng</div>
+</header>
+
+<section id="home" class="view active">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">✦ NỀN TẢNG ÔN TẬP PHÁP LUẬT</div>
+      <h1>Nắm vững luật.<br><em>Tự tin thi thử.</em></h1>
+      <p>Luyện tập kiến thức chứng khoán Việt Nam với câu hỏi trắc nghiệm, giải thích đáp án và căn cứ pháp lý tham khảo.</p>
+      <button class="btn btn-gold" onclick="openSetup('practice')">Bắt đầu luyện tập →</button>
+    </div>
+    <div class="hero-stat"><strong>30</strong><span>CÂU HỎI MẪU</span></div>
+  </div>
+
+  <div class="section-head"><div><h2>Chọn chế độ học tập</h2><p>Bắt đầu ôn luyện theo mục tiêu của bạn</p></div></div>
+  <div class="grid">
+    <div class="card mode-card">
+      <div class="mode-icon">📖</div>
+      <div><h3>Luyện tập theo chủ đề</h3><p>Làm câu hỏi và xem đáp án, giải thích ngay sau mỗi câu trả lời.</p><button class="btn btn-blue" onclick="openSetup('practice')">Luyện tập ngay</button></div>
+    </div>
+    <div class="card mode-card">
+      <div class="mode-icon">⏱️</div>
+      <div><h3>Thi thử</h3><p>Đề thi ngẫu nhiên, có tính giờ và tổng kết kết quả sau khi hoàn thành.</p><button class="btn btn-blue" onclick="openSetup('exam')">Bắt đầu thi thử</button></div>
+    </div>
+  </div>
+
+  <div class="section-head"><div><h2>Tổng quan học tập</h2><p>Theo dõi tiến độ ôn tập của bạn</p></div></div>
+  <div class="stats">
+    <div class="stat-card"><strong id="statQuestions">30</strong><span>Câu hỏi mẫu</span></div>
+    <div class="stat-card"><strong id="statAttempts">0</strong><span>Lần làm bài</span></div>
+    <div class="stat-card"><strong id="statBest">--</strong><span>Điểm cao nhất</span></div>
+  </div>
+  <div class="disclaimer">⚠️ Lưu ý: Đây là bộ câu hỏi tham khảo phục vụ tự học, không phải đề thi chính thức hoặc tư vấn pháp lý. Văn bản pháp luật có thể được sửa đổi, bổ sung. Hãy đối chiếu văn bản đang có hiệu lực và tài liệu chính thức của kỳ thi trước khi sử dụng.</div>
+</section>
+
+<section id="setup" class="view">
+  <div class="setup">
+    <button class="btn btn-outline" onclick="showView('home')">← Quay lại</button>
+    <h2 id="setupTitle">Thiết lập bài làm</h2>
+    <p class="setup-intro">Tùy chỉnh số lượng câu hỏi và chế độ làm bài trước khi bắt đầu.</p>
+    <div class="card">
+      <div class="field">
+        <label>Số lượng câu hỏi</label>
+        <div class="choice-row">
+          <button class="choice" data-count="20">20 câu</button>
+          <button class="choice" data-count="25">25 câu</button>
+          <button class="choice selected" data-count="30">30 câu</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Chủ đề câu hỏi</label>
+        <select id="categorySelect" style="width:100%">
+          <option value="all">Tất cả chủ đề</option>
+          <option value="general">Tổng quan về chứng khoán</option>
+          <option value="market">Thị trường và giao dịch</option>
+          <option value="company">Công ty đại chúng và phát hành</option>
+          <option value="disclosure">Công bố thông tin</option>
+          <option value="conduct">Hành vi bị nghiêm cấm</option>
+        </select>
+      </div>
+      <div class="field" id="timerField">
+        <label>Thời gian làm bài</label>
+        <select id="timerSelect">
+          <option value="30">30 phút</option>
+          <option value="45" selected>45 phút</option>
+          <option value="60">60 phút</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Quy tắc làm bài</label>
+        <div class="check-row"><input type="checkbox" id="shuffleCheck" checked> Xáo trộn thứ tự câu hỏi mỗi lần làm</div>
+      </div>
+      <button class="btn btn-blue" style="width:100%;margin-top:10px" onclick="startQuiz()">Tạo đề và bắt đầu →</button>
+    </div>
+  </div>
+</section>
+
+<section id="quiz" class="view">
+  <div class="quiz-top">
+    <div><div class="eyebrow" id="quizMode">LUYỆN TẬP</div><strong id="quizProgressText">Câu 1 / 30</strong></div>
+    <div class="timer" id="timer">45:00</div>
+  </div>
+  <div class="progress-wrap"><div class="progress" id="progress"></div></div>
+  <div class="quiz-layout">
+    <div class="question-card">
+      <div class="question-meta"><span class="pill" id="qCategory">Chủ đề</span><span class="pill gray" id="qIndex">CÂU 01</span></div>
+      <div class="question-text" id="questionText"></div>
+      <div class="answers" id="answers"></div>
+      <div class="explanation" id="explanation"></div>
+      <div class="quiz-actions">
+        <button class="btn btn-outline" onclick="previousQuestion()">← Câu trước</button>
+        <button class="btn btn-blue" id="nextButton" onclick="nextQuestion()">Câu tiếp theo →</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Danh sách câu hỏi</h3>
+      <div class="q-grid" id="questionGrid"></div>
+      <p style="font-size:10px;color:#8993a6;line-height:1.8;margin-top:15px">● Đang làm<br>● Đã trả lời<br>○ Chưa trả lời</p>
+      <button class="btn btn-blue" style="width:100%;margin-top:10px" onclick="finishQuiz()">Nộp bài</button>
+    </div>
+  </div>
+</section>
+
+<section id="result" class="view">
+  <div class="setup">
+    <div class="result-hero">
+      <div class="eyebrow">KẾT QUẢ BÀI LÀM</div>
+      <div class="score-circle"><strong id="score">0%</strong></div>
+      <h2 id="resultTitle">Hoàn thành bài thi!</h2>
+      <p id="resultSummary"></p>
+      <div class="stats">
+        <div class="stat-card"><strong id="correctCount">0</strong><span>Câu đúng</span></div>
+        <div class="stat-card"><strong id="wrongCount">0</strong><span>Câu sai</span></div>
+        <div class="stat-card"><strong id="resultTime">--</strong><span>Thời gian</span></div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px">
+        <button class="btn btn-blue" onclick="openSetup(lastMode)">Làm đề mới</button>
+        <button class="btn btn-outline" onclick="showView('home')">Về trang chủ</button>
+      </div>
+    </div>
+    <div class="section-head"><div><h2>Xem lại câu trả lời</h2><p>Đáp án và giải thích từng câu</p></div></div>
+    <div class="review-list" id="reviewList"></div>
+  </div>
+</section>
+
+<section id="history" class="view">
+  <div class="section-head"><div><h2>Lịch sử làm bài</h2><p>Các bài làm được lưu trên trình duyệt hiện tại</p></div></div>
+  <div class="card" id="historyList"></div>
+</section>
+<div class="footer">CHỨNG KHOÁN ACADEMY · V1.0 · NỀN TẢNG TỰ HỌC</div>
+</main>
+</div>
+
+<script>
+const questions = [
+{id:1,cat:"general",topic:"Tổng quan",q:"Theo Luật Chứng khoán, chứng khoán là gì?",a:["Tài sản bao gồm cổ phiếu, trái phiếu, chứng chỉ quỹ và các loại chứng khoán khác theo luật","Chỉ bao gồm cổ phiếu niêm yết","Chỉ bao gồm tiền gửi ngân hàng","Chỉ bao gồm trái phiếu Chính phủ"],c:0,e:"Chứng khoán là tài sản, bao gồm các loại như cổ phiếu, trái phiếu, chứng chỉ quỹ, chứng quyền, chứng khoán phái sinh và các loại khác theo quy định pháp luật.",law:"Luật Chứng khoán 2019, Điều 4."},
+{id:2,cat:"general",topic:"Tổng quan",q:"Cơ quan nào quản lý nhà nước chuyên ngành về chứng khoán và thị trường chứng khoán tại Việt Nam?",a:["Ngân hàng Nhà nước","Ủy ban Chứng khoán Nhà nước","Bộ Công Thương","Tổng cục Thuế"],c:1,e:"Ủy ban Chứng khoán Nhà nước là cơ quan thuộc Bộ Tài chính, thực hiện chức năng quản lý nhà nước về chứng khoán và thị trường chứng khoán theo quy định.",law:"Luật Chứng khoán 2019 và văn bản quy định chức năng, nhiệm vụ của UBCKNN."},
+{id:3,cat:"general",topic:"Tổng quan",q:"Thị trường chứng khoán có vai trò cơ bản nào sau đây?",a:["Huy động vốn trung và dài hạn cho nền kinh tế","Thay thế hoàn toàn hệ thống ngân hàng","Bảo đảm mọi nhà đầu tư đều có lợi nhuận","Ấn định lãi suất tiền gửi"],c:0,e:"Thị trường chứng khoán là kênh huy động và phân bổ vốn, đồng thời tạo môi trường giao dịch và định giá chứng khoán.",law:"Luật Chứng khoán 2019; kiến thức cơ bản về thị trường chứng khoán."},
+{id:4,cat:"general",topic:"Tổng quan",q:"Cổ phiếu là loại chứng khoán xác nhận điều gì?",a:["Quyền sở hữu một phần vốn cổ phần của tổ chức phát hành","Quyền nhận lãi suất cố định từ ngân hàng","Quyền sở hữu tài sản của Nhà nước","Khoản tiền gửi có kỳ hạn"],c:0,e:"Cổ phiếu là chứng khoán xác nhận quyền và lợi ích hợp pháp của người sở hữu đối với một phần vốn cổ phần của tổ chức phát hành.",law:"Luật Chứng khoán 2019, Điều 4."},
+{id:5,cat:"general",topic:"Tổng quan",q:"Trái phiếu về bản chất thường xác nhận quan hệ nào?",a:["Quan hệ vay nợ giữa tổ chức phát hành và người sở hữu trái phiếu","Quyền sở hữu cổ phần","Quyền biểu quyết tại mọi doanh nghiệp","Quyền điều hành tổ chức phát hành"],c:0,e:"Trái phiếu là loại chứng khoán xác nhận quyền và lợi ích hợp pháp của người sở hữu đối với một phần nợ của tổ chức phát hành.",law:"Luật Chứng khoán 2019, Điều 4."},
+{id:6,cat:"general",topic:"Tổng quan",q:"Chứng chỉ quỹ xác nhận quyền sở hữu của nhà đầu tư đối với phần vốn góp vào đâu?",a:["Quỹ đầu tư chứng khoán","Ngân hàng Nhà nước","Sở giao dịch chứng khoán","Công ty kiểm toán"],c:0,e:"Chứng chỉ quỹ là chứng khoán xác nhận quyền sở hữu của nhà đầu tư đối với một phần vốn góp của quỹ đầu tư chứng khoán.",law:"Luật Chứng khoán 2019, Điều 4."},
+{id:7,cat:"market",topic:"Thị trường và giao dịch",q:"Sở giao dịch chứng khoán có chức năng chính nào?",a:["Tổ chức và vận hành thị trường giao dịch chứng khoán theo quy định","Bảo đảm lợi nhuận cho nhà đầu tư","Cấp tín dụng cho công ty niêm yết","Quyết định chính sách tiền tệ"],c:0,e:"Sở giao dịch chứng khoán tổ chức thị trường giao dịch chứng khoán và thực hiện các chức năng theo quy định pháp luật.",law:"Luật Chứng khoán 2019, quy định về Sở giao dịch chứng khoán."},
+{id:8,cat:"market",topic:"Thị trường và giao dịch",q:"Nhà đầu tư muốn mua bán chứng khoán niêm yết thông thường cần thực hiện thông qua đâu?",a:["Công ty chứng khoán thành viên hoặc hệ thống giao dịch được phép","Bất kỳ cửa hàng bán lẻ nào","Cơ quan đăng ký kinh doanh","Cơ quan công an"],c:0,e:"Nhà đầu tư thường mở tài khoản giao dịch tại công ty chứng khoán và đặt lệnh theo quy định của hệ thống giao dịch.",law:"Luật Chứng khoán 2019; quy chế giao dịch chứng khoán."},
+{id:9,cat:"market",topic:"Thị trường và giao dịch",q:"Lệnh giới hạn (LO) là lệnh như thế nào?",a:["Lệnh mua hoặc bán tại một mức giá xác định hoặc tốt hơn theo quy tắc giao dịch","Lệnh mua bằng mọi giá","Lệnh chỉ được dùng khi thị trường đóng cửa","Lệnh yêu cầu công ty chứng khoán bảo đảm lợi nhuận"],c:0,e:"Lệnh giới hạn xác định mức giá tối đa khi mua hoặc tối thiểu khi bán. Việc khớp lệnh còn phụ thuộc điều kiện thị trường và quy tắc giao dịch.",law:"Quy chế giao dịch chứng khoán của Sở giao dịch chứng khoán."},
+{id:10,cat:"market",topic:"Thị trường và giao dịch",q:"Hoạt động lưu ký chứng khoán nhằm mục đích chủ yếu nào?",a:["Bảo quản, ghi nhận và quản lý chứng khoán của khách hàng theo quy định","Bảo đảm giá chứng khoán tăng","Cho vay tiêu dùng","Cấp phép thành lập doanh nghiệp"],c:0,e:"Lưu ký chứng khoán bao gồm việc nhận ký gửi, bảo quản, chuyển giao và ghi nhận quyền sở hữu chứng khoán theo hệ thống lưu ký.",law:"Luật Chứng khoán 2019, quy định về đăng ký, lưu ký, bù trừ và thanh toán chứng khoán."},
+{id:11,cat:"market",topic:"Thị trường và giao dịch",q:"Thanh toán giao dịch chứng khoán là quá trình nào?",a:["Thực hiện chuyển giao chứng khoán và tiền giữa các bên theo kết quả giao dịch","Công bố báo cáo tài chính","Phát hành cổ phiếu lần đầu","Đăng ký thành lập công ty"],c:0,e:"Thanh toán giao dịch chứng khoán là quá trình hoàn tất nghĩa vụ chuyển giao chứng khoán và thanh toán tiền theo kết quả giao dịch.",law:"Luật Chứng khoán 2019; quy định về bù trừ và thanh toán chứng khoán."},
+{id:12,cat:"market",topic:"Thị trường và giao dịch",q:"Chứng khoán phái sinh có giá trị phụ thuộc chủ yếu vào yếu tố nào?",a:["Tài sản cơ sở hoặc yếu tố cơ sở","Mệnh giá cổ phiếu bất kỳ","Lãi suất tiết kiệm của một ngân hàng duy nhất","Giá bất động sản tại mọi thời điểm"],c:0,e:"Chứng khoán phái sinh là công cụ tài chính dưới dạng hợp đồng, có giá trị phụ thuộc vào tài sản cơ sở hoặc yếu tố cơ sở.",law:"Luật Chứng khoán 2019, Điều 4."},
+{id:13,cat:"company",topic:"Công ty đại chúng",q:"Công ty đại chúng phải thực hiện nghĩa vụ nào sau đây?",a:["Tuân thủ quy định về quản trị công ty và công bố thông tin","Bảo đảm giá cổ phiếu không giảm","Trả cổ tức cố định hằng tháng","Bảo đảm mọi cổ đông đều có lãi"],c:0,e:"Công ty đại chúng phải tuân thủ quy định pháp luật về quản trị công ty, công bố thông tin, báo cáo và các nghĩa vụ liên quan.",law:"Luật Chứng khoán 2019, quy định về công ty đại chúng."},
+{id:14,cat:"company",topic:"Công ty đại chúng",q:"Cổ đông phổ thông của công ty cổ phần có quyền cơ bản nào?",a:["Tham dự, phát biểu và biểu quyết tại Đại hội đồng cổ đông theo quy định","Yêu cầu công ty bảo đảm giá cổ phiếu","Tự ý sử dụng tài sản công ty","Miễn trừ mọi nghĩa vụ góp vốn"],c:0,e:"Cổ đông phổ thông có các quyền theo Luật Doanh nghiệp và điều lệ công ty, bao gồm quyền dự họp, biểu quyết và nhận cổ tức khi đủ điều kiện.",law:"Luật Doanh nghiệp 2020 và các văn bản sửa đổi, bổ sung."},
+{id:15,cat:"company",topic:"Công ty đại chúng",q:"Phát hành chứng khoán ra công chúng phải tuân thủ điều gì?",a:["Điều kiện, hồ sơ và thủ tục theo quy định pháp luật về chứng khoán","Chỉ cần thông báo miệng cho nhà đầu tư","Không cần công bố thông tin","Chỉ cần được một cổ đông đồng ý"],c:0,e:"Việc chào bán chứng khoán ra công chúng phải đáp ứng các điều kiện và thực hiện hồ sơ, thủ tục theo Luật Chứng khoán và văn bản hướng dẫn.",law:"Luật Chứng khoán 2019, quy định về chào bán chứng khoán ra công chúng."},
+{id:16,cat:"company",topic:"Công ty đại chúng",q:"Bản cáo bạch trong hoạt động chào bán chứng khoán có mục đích chính nào?",a:["Cung cấp thông tin cần thiết để nhà đầu tư đánh giá việc đầu tư","Cam kết chắc chắn lợi nhuận","Thay thế hợp đồng mua bán","Bảo đảm giá chứng khoán không biến động"],c:0,e:"Bản cáo bạch cung cấp thông tin về tổ chức phát hành, đợt chào bán, rủi ro và các nội dung cần thiết để nhà đầu tư cân nhắc.",law:"Luật Chứng khoán 2019, quy định về hồ sơ chào bán chứng khoán."},
+{id:17,cat:"company",topic:"Công ty đại chúng",q:"Cổ tức là gì?",a:["Khoản lợi nhuận sau thuế được trả cho mỗi cổ phần bằng tiền hoặc tài sản khác","Khoản vay của cổ đông","Phí giao dịch chứng khoán","Thuế thu nhập cá nhân"],c:0,e:"Cổ tức là khoản lợi nhuận sau thuế được trả cho mỗi cổ phần bằng tiền hoặc bằng tài sản khác theo quy định.",law:"Luật Doanh nghiệp 2020, quy định về cổ tức."},
+{id:18,cat:"company",topic:"Công ty đại chúng",q:"Ai có thẩm quyền quyết định các vấn đề thuộc thẩm quyền Đại hội đồng cổ đông?",a:["Đại hội đồng cổ đông","Công ty kiểm toán độc lập","Sở giao dịch chứng khoán","Ngân hàng lưu ký"],c:0,e:"Đại hội đồng cổ đông là cơ quan quyết định cao nhất của công ty cổ phần đối với các vấn đề thuộc thẩm quyền theo Luật Doanh nghiệp và điều lệ.",law:"Luật Doanh nghiệp 2020."},
+{id:19,cat:"disclosure",topic:"Công bố thông tin",q:"Mục tiêu quan trọng của công bố thông tin trên thị trường chứng khoán là gì?",a:["Bảo đảm tính minh bạch và hỗ trợ nhà đầu tư tiếp cận thông tin","Bảo đảm tất cả chứng khoán tăng giá","Ngăn cản nhà đầu tư cá nhân giao dịch","Thay thế hoạt động kiểm toán"],c:0,e:"Công bố thông tin giúp thị trường minh bạch, công bằng và hỗ trợ nhà đầu tư đưa ra quyết định dựa trên thông tin.",law:"Luật Chứng khoán 2019, quy định về công bố thông tin."},
+{id:20,cat:"disclosure",topic:"Công bố thông tin",q:"Thông tin nào thường thuộc nhóm thông tin phải công bố theo quy định?",a:["Thông tin định kỳ, bất thường và theo yêu cầu trong các trường hợp luật định","Tin đồn chưa được xác minh trên mạng xã hội","Thông tin cá nhân không liên quan","Mọi tin nhắn riêng của nhân viên"],c:0,e:"Tổ chức thuộc đối tượng công bố thông tin phải thực hiện công bố định kỳ, bất thường và theo yêu cầu theo đúng quy định áp dụng.",law:"Luật Chứng khoán 2019 và Thông tư 96/2020/TT-BTC cùng văn bản sửa đổi, bổ sung (cần kiểm tra hiệu lực)."},
+{id:21,cat:"disclosure",topic:"Công bố thông tin",q:"Khi phát hiện thông tin đã công bố có sai sót, tổ chức công bố thông tin nên làm gì?",a:["Thực hiện đính chính hoặc công bố lại theo quy định","Xóa toàn bộ dữ liệu và không thông báo","Yêu cầu nhà đầu tư tự tìm hiểu","Chỉ thông báo riêng cho một cổ đông"],c:0,e:"Thông tin sai lệch cần được đính chính hoặc công bố lại theo quy định nhằm bảo đảm tính chính xác và minh bạch.",law:"Quy định về công bố thông tin trên thị trường chứng khoán."},
+{id:22,cat:"disclosure",topic:"Công bố thông tin",q:"Người nội bộ của công ty đại chúng giao dịch cổ phiếu của công ty cần lưu ý điều gì?",a:["Nghĩa vụ báo cáo, công bố thông tin và quy định giao dịch áp dụng","Có thể giao dịch không cần tuân thủ quy định","Chỉ cần thông báo cho bạn bè","Không cần quan tâm đến thông tin nội bộ"],c:0,e:"Người nội bộ và người có liên quan phải tuân thủ các quy định về báo cáo, công bố thông tin khi giao dịch chứng khoán.",law:"Luật Chứng khoán 2019 và văn bản hướng dẫn công bố thông tin."},
+{id:23,cat:"conduct",topic:"Hành vi bị nghiêm cấm",q:"Hành vi sử dụng thông tin nội bộ để mua bán chứng khoán nhằm trục lợi có bị cấm không?",a:["Có, đây là hành vi bị nghiêm cấm","Không, nếu giao dịch có lãi","Chỉ bị cấm với cổ phiếu ngân hàng","Được phép nếu không công bố cho người khác"],c:0,e:"Sử dụng thông tin nội bộ để mua, bán chứng khoán cho chính mình hoặc người khác là hành vi bị nghiêm cấm theo quy định.",law:"Luật Chứng khoán 2019, Điều 12."},
+{id:24,cat:"conduct",topic:"Hành vi bị nghiêm cấm",q:"Tạo cung cầu giả tạo, thao túng giá chứng khoán có phải hành vi bị nghiêm cấm?",a:["Có","Không nếu giao dịch qua tài khoản cá nhân","Chỉ bị cấm khi giá giảm","Chỉ bị cấm đối với trái phiếu"],c:0,e:"Thao túng thị trường chứng khoán là hành vi bị nghiêm cấm. Các hành vi cụ thể được quy định trong Luật Chứng khoán.",law:"Luật Chứng khoán 2019, Điều 12."},
+{id:25,cat:"conduct",topic:"Hành vi bị nghiêm cấm",q:"Cá nhân cố ý công bố thông tin sai lệch hoặc che giấu sự thật trong hoạt động chứng khoán có thể bị xử lý không?",a:["Có, tùy tính chất và mức độ vi phạm","Không, nếu thông tin đăng trên mạng xã hội","Chỉ bị nhắc nhở","Không bị xử lý nếu không có lợi nhuận"],c:0,e:"Hành vi tạo dựng, công bố thông tin sai lệch hoặc che giấu thông tin trong hoạt động chứng khoán có thể bị xử lý theo quy định.",law:"Luật Chứng khoán 2019, Điều 12 và quy định xử phạt liên quan."},
+{id:26,cat:"conduct",topic:"Hành vi bị nghiêm cấm",q:"Nhà đầu tư có được sử dụng thông tin chưa công bố để giao dịch chứng khoán trái quy định không?",a:["Không","Có nếu mua số lượng nhỏ","Có nếu giao dịch qua người thân","Có nếu không dùng tài khoản chính"],c:0,e:"Nhà đầu tư không được sử dụng thông tin nội bộ để thực hiện giao dịch trái quy định. Việc sử dụng người khác hoặc tài khoản khác không làm hành vi trở nên hợp pháp.",law:"Luật Chứng khoán 2019, Điều 12."},
+{id:27,cat:"conduct",topic:"Hành vi bị nghiêm cấm",q:"Môi giới chứng khoán có được cam kết chắc chắn khách hàng sẽ có lợi nhuận không?",a:["Không được đưa ra cam kết trái quy định về lợi nhuận hoặc bảo đảm kết quả đầu tư","Được phép trong mọi trường hợp","Được phép nếu khách hàng ký giấy","Chỉ cần cam kết bằng tin nhắn"],c:0,e:"Hoạt động tư vấn và môi giới phải tuân thủ nghĩa vụ nghề nghiệp, quy định pháp luật và không được cung cấp thông tin gây hiểu nhầm hoặc cam kết trái quy định.",law:"Luật Chứng khoán 2019 và quy định về hoạt động kinh doanh chứng khoán."},
+{id:28,cat:"general",topic:"Tổng quan",q:"Nhà đầu tư cần cân nhắc điều gì trước khi quyết định mua chứng khoán?",a:["Mục tiêu, khả năng tài chính, rủi ro và thông tin liên quan","Chỉ dựa vào tin đồn","Chỉ dựa vào lời hứa lợi nhuận","Bỏ qua bản cáo bạch và thông tin công bố"],c:0,e:"Đầu tư chứng khoán có rủi ro. Nhà đầu tư nên tìm hiểu thông tin, đánh giá khả năng tài chính và mức độ chấp nhận rủi ro.",law:"Nguyên tắc đầu tư có trách nhiệm; tham khảo Luật Chứng khoán 2019."},
+{id:29,cat:"market",topic:"Thị trường và giao dịch",q:"Công ty chứng khoán là tổ chức hoạt động trong lĩnh vực nào?",a:["Kinh doanh chứng khoán và cung cấp dịch vụ chứng khoán theo giấy phép","Nhận tiền gửi tiết kiệm như ngân hàng thương mại","Quản lý chính sách tiền tệ","Cấp giấy chứng nhận quyền sử dụng đất"],c:0,e:"Công ty chứng khoán được cấp phép thực hiện một hoặc một số nghiệp vụ kinh doanh chứng khoán theo quy định pháp luật.",law:"Luật Chứng khoán 2019, quy định về công ty chứng khoán."},
+{id:30,cat:"general",topic:"Tổng quan",q:"Nguyên tắc nào cần được bảo đảm trong hoạt động chứng khoán và thị trường chứng khoán?",a:["Công khai, công bằng, minh bạch và bảo vệ quyền, lợi ích hợp pháp của nhà đầu tư","Bảo đảm mọi giao dịch đều có lãi","Ưu tiên tuyệt đối một nhóm nhà đầu tư","Không cần công bố thông tin"],c:0,e:"Hoạt động chứng khoán và thị trường chứng khoán phải tuân thủ các nguyên tắc pháp luật, trong đó có tính công bằng, công khai, minh bạch và bảo vệ quyền lợi hợp pháp.",law:"Luật Chứng khoán 2019, các nguyên tắc hoạt động chứng khoán và thị trường chứng khoán."}
+];
+
+const categories = {
+ all:"Tất cả chủ đề",
+ general:"Tổng quan về chứng khoán",
+ market:"Thị trường và giao dịch",
+ company:"Công ty đại chúng và phát hành",
+ disclosure:"Công bố thông tin",
+ conduct:"Hành vi bị nghiêm cấm"
+};
+
+let mode="practice",lastMode="practice",count=30,index=0,items=[],answers={},locked={},seconds=0,timerInterval=null,startedAt=0,finished=false;
+
+function showView(id){
+ document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll(".nav").forEach(n=>n.classList.toggle("active",n.dataset.view===id));
+ if(id==="history") renderHistory();
+ window.scrollTo(0,0);
+}
+document.querySelectorAll(".nav").forEach(n=>n.addEventListener("click",()=>showView(n.dataset.view)));
+
+function openSetup(m){
+ mode=m;lastMode=m;
+ document.getElementById("setupTitle").textContent=m==="exam"?"Thiết lập đề thi thử":"Thiết lập bài luyện tập";
+ document.getElementById("timerField").style.display=m==="exam"?"block":"none";
+ showView("setup");
+}
+document.querySelectorAll("[data-count]").forEach(b=>b.addEventListener("click",()=>{
+ count=Number(b.dataset.count);
+ document.querySelectorAll("[data-count]").forEach(x=>x.classList.toggle("selected",x===b));
+}));
+
+function shuffle(arr){
+ const a=[...arr];
+ for(let i=a.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  [a[i],a[j]]=[a[j],a[i]];
+ }
+ return a;
+}
+
+function startQuiz(){
+ const category=document.getElementById("categorySelect").value;
+ let pool=questions.filter(q=>category==="all"||q.cat===category);
+ if(pool.length===0){alert("Không có câu hỏi trong chủ đề này.");return;}
+ const selected=document.getElementById("shuffleCheck").checked?shuffle(pool):[...pool];
+ items=selected.slice(0,Math.min(count,pool.length));
+ // Nếu chọn một chủ đề có ít câu hơn số lượng yêu cầu, lấy đúng số câu hiện có.
+ answers={};locked={};index=0;finished=false;
+ seconds=mode==="exam"?Number(document.getElementById("timerSelect").value)*60:0;
+ startedAt=Date.now();
+ showView("quiz");
+ document.getElementById("quizMode").textContent=mode==="exam"?"THI THỬ":"LUYỆN TẬP";
+ renderQuestion();
+ updateTimer();
+ clearInterval(timerInterval);
+ if(mode==="exam"){
+  timerInterval=setInterval(()=>{
+   seconds--;
+   updateTimer();
+   if(seconds<=0){clearInterval(timerInterval);finishQuiz(true);}
+  },1000);
+ }
+}
+
+function updateTimer(){
+ const el=document.getElementById("timer");
+ if(mode==="practice"){el.textContent="Không giới hạn";return;}
+ const m=Math.floor(seconds/60),s=seconds%60;
+ el.textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+ el.style.color=seconds<300?"#d94c58":"#4263eb";
+}
+
+function renderQuestion(){
+ const q=items[index];
+ document.getElementById("quizProgressText").textContent=`Câu ${index+1} / ${items.length}`;
+ document.getElementById("qIndex").textContent="CÂU "+String(index+1).padStart(2,"0");
+ document.getElementById("qCategory").textContent=q.topic;
+ document.getElementById("questionText").textContent=q.q;
+ document.getElementById("progress").style.width=((index+1)/items.length*100)+"%";
+ const area=document.getElementById("answers");
+ area.innerHTML="";
+ q.a.forEach((a,i)=>{
+  const b=document.createElement("button");
+  b.className="answer";
+  b.innerHTML=`<span class="letter">${"ABCD"[i]}</span><span></span>`;
+  b.querySelector("span:last-child").textContent=a;
+  if(answers[q.id]===i)b.classList.add("selected");
+  if(locked[q.id]){
+   b.disabled=true;
+   if(i===q.c)b.classList.add("correct");
+   else if(i===answers[q.id])b.classList.add("wrong");
+  }
+  b.addEventListener("click",()=>chooseAnswer(i));
+  area.appendChild(b);
+ });
+ const ex=document.getElementById("explanation");
+ ex.className="explanation";
+ ex.innerHTML="";
+ if(locked[q.id]){
+  const right=answers[q.id]===q.c;
+  ex.classList.add("show");
+  if(!right)ex.classList.add("wrong-explain");
+  ex.innerHTML=`<strong>${right?"✓ Chính xác!":"✕ Chưa chính xác. Đáp án đúng: "+ "ABCD"[q.c]}</strong><div></div><p><b>Căn cứ pháp lý:</b> ${escapeHTML(q.law)}</p>`;
+  ex.querySelector("div").textContent=q.e;
+ }
+ document.getElementById("nextButton").textContent=index===items.length-1?"Hoàn thành →":"Câu tiếp theo →";
+ renderGrid();
+ updateTimer();
+}
+
+function escapeHTML(str){
+ return String(str).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+function chooseAnswer(i){
+ const q=items[index];
+ if(locked[q.id]||finished)return;
+ answers[q.id]=i;
+ if(mode==="practice"){
+  locked[q.id]=true;
+ }
+ renderQuestion();
+}
+
+function renderGrid(){
+ const grid=document.getElementById("questionGrid");
+ grid.innerHTML="";
+ items.forEach((q,i)=>{
+  const b=document.createElement("button");
+  b.className="q-number";
+  b.textContent=i+1;
+  if(i===index)b.classList.add("current");
+  else if(locked[q.id])b.classList.add(answers[q.id]===q.c?"done":"incorrect");
+  else if(answers[q.id]!==undefined)b.classList.add("done");
+  b.onclick=()=>{index=i;renderQuestion();};
+  grid.appendChild(b);
+ });
+}
+
+function previousQuestion(){if(index>0){index--;renderQuestion();}}
+function nextQuestion(){
+ if(index<items.length-1){index++;renderQuestion();}
+ else finishQuiz();
+}
+
+function finishQuiz(auto=false){
+ if(finished)return;
+ const unanswered=items.filter(q=>answers[q.id]===undefined).length;
+ if(!auto&&unanswered>0&&!confirm(`Bạn còn ${unanswered} câu chưa trả lời. Bạn có chắc muốn nộp bài?`))return;
+ finished=true;
+ clearInterval(timerInterval);
+ let correct=0;
+ items.forEach(q=>{if(answers[q.id]===q.c)correct++;});
+ const total=items.length;
+ const percent=Math.round(correct/total*100);
+ const elapsed=Math.floor((Date.now()-startedAt)/1000);
+ const record={date:new Date().toLocaleString("vi-VN"),correct,total,percent,mode,lastMode,elapsed};
+ let history=[];
+ try{history=JSON.parse(localStorage.getItem("lawExamHistory")||"[]");}catch(e){}
+ history.unshift(record);
+ localStorage.setItem("lawExamHistory",JSON.stringify(history.slice(0,50)));
+ document.getElementById("score").textContent=percent+"%";
+ document.getElementById("correctCount").textContent=correct;
+ document.getElementById("wrongCount").textContent=total-correct;
+ document.getElementById("resultTime").textContent=Math.floor(elapsed/60)+"p "+(elapsed%60)+"s";
+ document.getElementById("resultTitle").textContent=percent>=80?"Rất tốt!":"Đã hoàn thành bài làm!";
+ document.getElementById("resultSummary").textContent=`Bạn trả lời đúng ${correct}/${total} câu hỏi.${auto?" Hết thời gian làm bài.":""}`;
+ const review=document.getElementById("reviewList");
+ review.innerHTML="";
+ items.forEach((q,i)=>{
+  const right=answers[q.id]===q.c;
+  const chosen=answers[q.id]===undefined?"Chưa trả lời":q.a[answers[q.id]];
+  const div=document.createElement("div");
+  div.className="review-item";
+  div.innerHTML=`<div class="status-text" style="color:${right?"#15966b":"#d94c58"}">${right?"✓ Câu "+(i+1)+" · Chính xác":"✕ Câu "+(i+1)+" · Chưa chính xác"}</div><b>${escapeHTML(q.q)}</b><p>Đáp án của bạn: ${escapeHTML(chosen)}</p><p>Đáp án đúng: <b>${"ABCD"[q.c]}. ${escapeHTML(q.a[q.c])}</b></p><p>${escapeHTML(q.e)}</p><small style="color:#718099">Căn cứ tham khảo: ${escapeHTML(q.law)}</small>`;
+  review.appendChild(div);
+ });
+ showView("result");
+ updateStats();
+}
+
+function renderHistory(){
+ let history=[];
+ try{history=JSON.parse(localStorage.getItem("lawExamHistory")||"[]");}catch(e){}
+ const el=document.getElementById("historyList");
+ if(!history.length){el.innerHTML='<div class="empty">Bạn chưa có bài làm nào.<br>Hãy bắt đầu luyện tập ngay!</div>';return;}
+ el.innerHTML="";
+ history.forEach(h=>{
+  const div=document.createElement("div");
+  div.className="history-item";
+  div.innerHTML=`<div><b>${h.mode==="exam"?"Thi thử":"Luyện tập"}</b><br><span style="color:#8a94a8">${escapeHTML(h.date)} · ${h.total} câu</span></div><strong style="color:${h.percent>=80?"#15966b":"#4263eb"}">${h.percent}%</strong>`;
+  el.appendChild(div);
+ });
+}
+
+function updateStats(){
+ let history=[];
+ try{history=JSON.parse(localStorage.getItem("lawExamHistory")||"[]");}catch(e){}
+ document.getElementById("statAttempts").textContent=history.length;
+ document.getElementById("statBest").textContent=history.length?Math.max(...history.map(x=>x.percent))+"%":"--";
+}
+updateStats();
+document.getElementById("statQuestions").textContent=questions.length;
+</script>
+</body>
+</html>

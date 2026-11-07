@@ -1,0 +1,14 @@
+
+{
+  "name": "securities-law-exam",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "devDependencies": {
+    "vercel": "^41.0.0"
+  }
+}
