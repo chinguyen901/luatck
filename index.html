@@ -218,7 +218,7 @@ function show(id){["home","quiz","result"].forEach(x=>$(x).classList.toggle("hid
 function setStatus(s){$("status").textContent=s}
 
 async function getAIQuestions(){
- const response=await fetch("/api/generate.js",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({count:8,category:$("category").value,difficulty:$("difficulty").value})});
+ const response=await fetch("/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({count:8,category:$("category").value,difficulty:$("difficulty").value})});
  const data=await response.json();
  if(!response.ok)throw new Error(data.error||"Không gọi được AI");
  return (data.questions||[]).map((q,i)=>({...q,id:"AI-"+Date.now()+"-"+i,source:"AI"}));
