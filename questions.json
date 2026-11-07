@@ -1,23 +1,23 @@
-
 {
+  "version": "3.0",
+  "updated": "2026-11-07",
+  "description": "LUATCK Securities Examination Question Bank",
   "questions": [
     {
-      "id": "SRTC-LAW-0001",
-      "question": "Nội dung câu hỏi lấy từ nguồn ngân hàng đề được phép sử dụng",
+      "id": "LUATCK-001",
+      "question": "NỘI DUNG CÂU HỎI",
       "options": [
         "Phương án A",
         "Phương án B",
         "Phương án C",
         "Phương án D"
       ],
-      "answer": 1,
-      "explanation": "Giải thích đáp án sau khi đối chiếu văn bản pháp luật.",
+      "answer": 0,
+      "explanation": "Giải thích đáp án và căn cứ pháp lý.",
+      "source_url": "https://vanban.chinhphu.vn/",
+      "topic": "Pháp luật chứng khoán",
       "category": "law",
-      "topic": "Luật Chứng khoán",
       "difficulty": "advanced",
-      "source_name": "Tên tài liệu hoặc ngân hàng đề",
-      "source_url": "https://example.com/source",
-      "law_reference": "Văn bản và điều khoản cần đối chiếu",
       "verified": false
     }
   ]
