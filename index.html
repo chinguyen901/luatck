@@ -5,385 +5,1379 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101827">
-<title>LUATCK V3 | Luyện thi Pháp luật chứng khoán</title>
+<title>LUATCK V3.1 | Luyện thi Pháp luật chứng khoán</title>
+
 <style>
-:root{
- --bg:#f3f5f9;--panel:#fff;--nav:#111c2e;--text:#202b3c;
- --muted:#7b8798;--line:#e4e9f0;--blue:#2463eb;
- --blue-light:#edf3ff;--green:#16845b;--red:#cf394d;
+:root {
+  --bg:#f3f5f9;
+  --panel:#fff;
+  --nav:#111c2e;
+  --text:#202b3c;
+  --muted:#7b8798;
+  --line:#e4e9f0;
+  --blue:#2463eb;
+  --blue-light:#edf3ff;
+  --green:#16845b;
+  --red:#cf394d;
+  --yellow:#e5a32b;
 }
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);
- font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
-button,select{font:inherit}
-button{cursor:pointer}
-.app{min-height:100vh;display:grid;grid-template-columns:230px minmax(0,1fr)}
-.sidebar{background:var(--nav);color:#fff;padding:25px 16px;display:flex;flex-direction:column;gap:24px}
-.logo{font-size:24px;font-weight:850;letter-spacing:1px;padding:0 10px}
-.logo span{color:#75a7ff}
-.sidebar small{color:#8797ad;padding:0 10px}
-.nav button{display:block;width:100%;text-align:left;padding:12px 13px;
- margin:4px 0;border:0;border-radius:9px;background:transparent;color:#c7d2e2}
-.nav button.active,.nav button:hover{background:#22344e;color:white}
-.side-note{margin-top:auto;color:#9cabc0;font-size:12px;line-height:1.6;padding:10px}
-.main{min-width:0}
-.topbar{height:68px;background:#fff;border-bottom:1px solid var(--line);
- display:flex;align-items:center;justify-content:space-between;padding:0 30px}
-.topbar strong{font-size:14px}
-.content{max-width:1250px;margin:auto;padding:28px}
-.page-title{font-size:25px;font-weight:800;margin:0 0 6px}
-.subtitle{font-size:13px;color:var(--muted);margin:0 0 23px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
-.card{background:var(--panel);border:1px solid var(--line);
- border-radius:13px;padding:19px;margin-bottom:16px}
-.stat-label{font-size:12px;color:var(--muted)}
-.stat-number{font-size:27px;font-weight:800;margin-top:6px}
-label{display:block;font-size:13px;font-weight:650;margin:15px 0 7px}
-select{width:100%;padding:11px 12px;border:1px solid var(--line);
- border-radius:8px;background:#fff;color:var(--text)}
-.btn{border:0;border-radius:8px;padding:11px 16px;font-weight:700}
-.btn-primary{background:var(--blue);color:white}
-.btn-light{background:var(--blue-light);color:var(--blue)}
-.btn-outline{background:#fff;border:1px solid var(--line);color:var(--text)}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.wide{width:100%;margin-top:17px}
-.hidden{display:none!important}
-.muted{color:var(--muted);font-size:13px}
-.exam-layout{display:grid;grid-template-columns:minmax(0,1fr) 235px;gap:17px}
-.exam-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.pill{display:inline-block;background:var(--blue-light);color:var(--blue);
- border-radius:30px;padding:5px 10px;font-size:11px;font-weight:750}
-.timer{font-size:21px;font-weight:800;font-variant-numeric:tabular-nums}
-.progress{height:6px;background:#e9edf4;border-radius:8px;margin:17px 0;overflow:hidden}
-.progress div{height:100%;background:var(--blue);width:0}
-.question{font-size:19px;font-weight:700;line-height:1.6;margin:20px 0}
-.answer{width:100%;text-align:left;background:#fff;border:1px solid var(--line);
- border-radius:9px;padding:14px;margin:7px 0;display:flex;gap:12px;line-height:1.5}
-.answer:hover{border-color:#8baefb;background:#f8faff}
-.answer.chosen{border:2px solid var(--blue);background:var(--blue-light)}
-.answer.correct{border-color:var(--green);background:#effaf5}
-.answer.wrong{border-color:var(--red);background:#fff2f3}
-.letter{width:25px;height:25px;flex:none;border:1px solid var(--line);
- border-radius:6px;display:grid;place-items:center;font-weight:750;font-size:12px}
-.exam-nav{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:13px}
-.qnum{height:36px;border:1px solid var(--line);border-radius:7px;background:#fff}
-.qnum.current{border:2px solid var(--blue);color:var(--blue)}
-.qnum.done{background:var(--blue-light);border-color:#b7ccff}
-.qnum.flag{outline:2px solid #e3a32b}
-.actions{display:flex;gap:9px;margin-top:18px;flex-wrap:wrap}
-.actions button{flex:1}
-.info-line{display:flex;justify-content:space-between;gap:10px;
- font-size:12px;color:var(--muted);padding:8px 0;border-bottom:1px solid var(--line)}
-.result-score{font-size:42px;font-weight:850;color:var(--blue)}
-.history-row{display:flex;justify-content:space-between;gap:12px;
- border-bottom:1px solid var(--line);padding:12px 0;font-size:13px}
-.cow{position:fixed;right:22px;bottom:18px;width:54px;height:54px;
- border:1px solid #e5e9f0;border-radius:50%;background:#fff;
- box-shadow:0 5px 20px #15243a18;display:grid;place-items:center;font-size:27px}
-.cow-msg{position:fixed;right:85px;bottom:26px;background:#fff;
- border:1px solid var(--line);border-radius:10px;padding:10px 13px;
- font-size:12px;box-shadow:0 5px 20px #15243a12;display:none}
-.cow:hover+.cow-msg{display:block}
-.notice{background:#fff8e8;border:1px solid #f1dfb6;color:#79571c;
- border-radius:9px;padding:12px;font-size:12px;line-height:1.6}
-@media(max-width:900px){
- .app{grid-template-columns:1fr}
- .sidebar{padding:12px;gap:10px}
- .sidebar .logo{font-size:20px}
- .sidebar small,.side-note{display:none}
- .nav{display:flex;overflow:auto;gap:5px}
- .nav button{white-space:nowrap;width:auto;margin:0}
- .topbar{height:55px;padding:0 16px}
- .content{padding:17px}
- .exam-layout{grid-template-columns:1fr}
- .grid{grid-template-columns:1fr}
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
 }
-@media(min-width:901px){.sidebar{position:sticky;top:0;height:100vh}}
+
+button,select { font:inherit; }
+button { cursor:pointer; }
+
+.app {
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:230px minmax(0,1fr);
+}
+
+.sidebar {
+  background:var(--nav);
+  color:#fff;
+  padding:25px 16px;
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+
+.logo {
+  font-size:25px;
+  font-weight:850;
+  letter-spacing:1px;
+  padding:0 10px;
+}
+
+.logo span { color:#75a7ff; }
+
+.sidebar small {
+  color:#8797ad;
+  padding:0 10px;
+}
+
+.nav button {
+  display:block;
+  width:100%;
+  text-align:left;
+  padding:12px 13px;
+  margin:4px 0;
+  border:0;
+  border-radius:9px;
+  background:transparent;
+  color:#c7d2e2;
+}
+
+.nav button.active,
+.nav button:hover {
+  background:#22344e;
+  color:white;
+}
+
+.side-note {
+  margin-top:auto;
+  color:#9cabc0;
+  font-size:12px;
+  line-height:1.7;
+  padding:10px;
+}
+
+.main { min-width:0; }
+
+.topbar {
+  height:68px;
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 30px;
+  gap:15px;
+}
+
+.topbar strong { font-size:14px; }
+
+.content {
+  max-width:1250px;
+  margin:auto;
+  padding:28px;
+}
+
+.page-title {
+  font-size:25px;
+  font-weight:800;
+  margin:0 0 6px;
+}
+
+.subtitle {
+  font-size:13px;
+  color:var(--muted);
+  margin:0 0 23px;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:15px;
+}
+
+.card {
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:19px;
+  margin-bottom:16px;
+}
+
+.stat-label {
+  font-size:12px;
+  color:var(--muted);
+}
+
+.stat-number {
+  font-size:27px;
+  font-weight:800;
+  margin-top:6px;
+}
+
+label {
+  display:block;
+  font-size:13px;
+  font-weight:650;
+  margin:15px 0 7px;
+}
+
+select {
+  width:100%;
+  padding:11px 12px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#fff;
+  color:var(--text);
+}
+
+.btn {
+  border:0;
+  border-radius:8px;
+  padding:11px 16px;
+  font-weight:700;
+}
+
+.btn-primary {
+  background:var(--blue);
+  color:white;
+}
+
+.btn-light {
+  background:var(--blue-light);
+  color:var(--blue);
+}
+
+.btn-outline {
+  background:#fff;
+  border:1px solid var(--line);
+  color:var(--text);
+}
+
+.btn:disabled {
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.wide {
+  width:100%;
+  margin-top:17px;
+}
+
+.hidden { display:none!important; }
+
+.muted {
+  color:var(--muted);
+  font-size:13px;
+}
+
+.exam-layout {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 235px;
+  gap:17px;
+}
+
+.exam-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.pill {
+  display:inline-block;
+  background:var(--blue-light);
+  color:var(--blue);
+  border-radius:30px;
+  padding:5px 10px;
+  font-size:11px;
+  font-weight:750;
+}
+
+.timer {
+  font-size:21px;
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+}
+
+.progress {
+  height:6px;
+  background:#e9edf4;
+  border-radius:8px;
+  margin:17px 0;
+  overflow:hidden;
+}
+
+.progress div {
+  height:100%;
+  background:var(--blue);
+  width:0;
+}
+
+.question {
+  font-size:19px;
+  font-weight:700;
+  line-height:1.6;
+  margin:20px 0;
+  white-space:pre-wrap;
+}
+
+.answer {
+  width:100%;
+  text-align:left;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:14px;
+  margin:7px 0;
+  display:flex;
+  gap:12px;
+  line-height:1.5;
+}
+
+.answer:hover {
+  border-color:#8baefb;
+  background:#f8faff;
+}
+
+.answer.chosen {
+  border:2px solid var(--blue);
+  background:var(--blue-light);
+}
+
+.answer.correct {
+  border-color:var(--green);
+  background:#effaf5;
+}
+
+.answer.wrong {
+  border-color:var(--red);
+  background:#fff2f3;
+}
+
+.letter {
+  width:25px;
+  height:25px;
+  flex:none;
+  border:1px solid var(--line);
+  border-radius:6px;
+  display:grid;
+  place-items:center;
+  font-weight:750;
+  font-size:12px;
+}
+
+.exam-nav {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+  margin-top:13px;
+}
+
+.qnum {
+  height:36px;
+  border:1px solid var(--line);
+  border-radius:7px;
+  background:#fff;
+}
+
+.qnum.current {
+  border:2px solid var(--blue);
+  color:var(--blue);
+}
+
+.qnum.done {
+  background:var(--blue-light);
+  border-color:#b7ccff;
+}
+
+.qnum.flag {
+  outline:2px solid var(--yellow);
+}
+
+.actions {
+  display:flex;
+  gap:9px;
+  margin-top:18px;
+  flex-wrap:wrap;
+}
+
+.actions button { flex:1; }
+
+.info-line {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:12px;
+  color:var(--muted);
+  padding:8px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.result-score {
+  font-size:42px;
+  font-weight:850;
+  color:var(--blue);
+}
+
+.history-row {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid var(--line);
+  padding:12px 0;
+  font-size:13px;
+}
+
+.cow {
+  position:fixed;
+  right:22px;
+  bottom:18px;
+  width:54px;
+  height:54px;
+  border:1px solid #e5e9f0;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 5px 20px #15243a18;
+  display:grid;
+  place-items:center;
+  font-size:27px;
+}
+
+.cow-msg {
+  position:fixed;
+  right:85px;
+  bottom:26px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:10px 13px;
+  font-size:12px;
+  box-shadow:0 5px 20px #15243a12;
+  display:none;
+}
+
+.cow:hover + .cow-msg { display:block; }
+
+.notice {
+  background:#fff8e8;
+  border:1px solid #f1dfb6;
+  color:#79571c;
+  border-radius:9px;
+  padding:12px;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.source-link {
+  color:var(--blue);
+  text-decoration:none;
+  font-size:13px;
+}
+
+.source-link:hover { text-decoration:underline; }
+
+.bank-link {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line);
+  font-size:13px;
+}
+
+.bank-link a {
+  color:var(--blue);
+  text-decoration:none;
+  font-weight:650;
+}
+
+.empty {
+  padding:20px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px;
+}
+
+@media(max-width:900px) {
+  .app { grid-template-columns:1fr; }
+
+  .sidebar {
+    padding:12px;
+    gap:10px;
+  }
+
+  .sidebar .logo { font-size:20px; }
+  .sidebar small,.side-note { display:none; }
+
+  .nav {
+    display:flex;
+    overflow:auto;
+    gap:5px;
+  }
+
+  .nav button {
+    white-space:nowrap;
+    width:auto;
+    margin:0;
+  }
+
+  .topbar {
+    height:55px;
+    padding:0 16px;
+  }
+
+  .content { padding:17px; }
+
+  .exam-layout { grid-template-columns:1fr; }
+
+  .grid { grid-template-columns:1fr; }
+}
+
+@media(min-width:901px) {
+  .sidebar {
+    position:sticky;
+    top:0;
+    height:100vh;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <div class="app">
+
 <aside class="sidebar">
- <div>
-  <div class="logo">LUAT<span>CK</span></div>
-  <small>SECURITIES LAW EXAM</small>
- </div>
- <nav class="nav">
-  <button class="active" onclick="showPage('home',this)">▦ Tổng quan</button>
-  <button onclick="showPage('setup',this)">▣ Thi thử</button>
-  <button onclick="showPage('history',this)">◷ Lịch sử</button>
- </nav>
- <div class="side-note">
-  LUATCK V3.0<br>
-  Ngân hàng câu hỏi có nguồn tham khảo.<br>
-  Không phải hệ thống thi chính thức.
- </div>
+
+  <div>
+    <div class="logo">LUAT<span>CK</span></div>
+    <small>SECURITIES LAW EXAM</small>
+  </div>
+
+  <nav class="nav">
+    <button class="active" onclick="showPage('home',this)">▦ Tổng quan</button>
+    <button onclick="showPage('setup',this)">▣ Thi thử</button>
+    <button onclick="showPage('history',this)">◷ Lịch sử</button>
+  </nav>
+
+  <div class="side-note">
+    LUATCK V3.1<br>
+    Ngân hàng câu hỏi có nguồn tham khảo.<br>
+    Không phải hệ thống thi chính thức.
+  </div>
+
 </aside>
 
 <div class="main">
- <header class="topbar">
+
+<header class="topbar">
   <strong>PHÁP LUẬT CHỨNG KHOÁN</strong>
   <span class="muted" id="bankStatus">Đang tải ngân hàng...</span>
- </header>
+</header>
 
- <main class="content">
-  <section id="home">
-   <h1 class="page-title">Tổng quan</h1>
-   <p class="subtitle">Hệ thống ôn luyện chứng chỉ chuyên môn chứng khoán.</p>
-   <div class="grid">
-    <div class="card"><div class="stat-label">Tổng câu hỏi đã nạp</div><div class="stat-number" id="totalQuestions">0</div></div>
-    <div class="card"><div class="stat-label">Số câu mặc định</div><div class="stat-number">60</div></div>
-    <div class="card"><div class="stat-label">Thời gian mô phỏng</div><div class="stat-number">60 phút</div></div>
-   </div>
-   <div class="card">
-    <h3>Bắt đầu luyện thi</h3>
-    <p class="muted">Chọn bài thi 30, 50 hoặc 60 câu. Đề được lấy ngẫu nhiên từ ngân hàng câu hỏi đã nạp.</p>
-    <button class="btn btn-primary" onclick="showPage('setup')">Thi thử ngay →</button>
-   </div>
-   <div class="notice">
-    Chỉ những câu hỏi có nguồn và trạng thái kiểm chứng mới được đưa vào ngân hàng chính thức của website. Không dùng câu hỏi do AI tự sinh.
-   </div>
-  </section>
+<main class="content">
 
-  <section id="setup" class="hidden">
-   <h1 class="page-title">Thi thử</h1>
-   <p class="subtitle">Mô phỏng bài thi Pháp luật về chứng khoán và thị trường chứng khoán.</p>
-   <div class="card" style="max-width:600px">
-    <label>Số lượng câu hỏi</label>
-    <select id="count"><option value="30">30 câu</option><option value="50">50 câu</option><option value="60" selected>60 câu</option></select>
-    <label>Chủ đề</label>
-    <select id="category">
-     <option value="all">Tất cả chuyên đề</option>
-     <option value="law">Luật Chứng khoán</option>
-     <option value="company">Công ty đại chúng</option>
-     <option value="offering">Chào bán và phát hành</option>
-     <option value="disclosure">Công bố thông tin</option>
-     <option value="trading">Giao dịch chứng khoán</option>
-     <option value="conduct">Hành vi vi phạm</option>
-    </select>
-    <label>Độ khó</label>
-    <select id="difficulty">
-     <option value="advanced" selected>Nâng cao – sát luyện thi</option>
-     <option value="all">Tất cả mức độ</option>
-    </select>
-    <label>Chế độ</label>
-    <select id="mode">
-     <option value="exam">Thi thử – xem đáp án sau khi nộp</option>
-     <option value="practice">Luyện tập – xem giải thích sau mỗi câu</option>
-    </select>
-    <button class="btn btn-primary wide" id="startBtn" onclick="startExam()">BẮT ĐẦU LÀM BÀI</button>
-    <p class="muted" id="setupMessage"></p>
-   </div>
-  </section>
+<!-- HOME -->
 
-  <section id="exam" class="hidden">
-   <div class="exam-head">
-    <div><span class="pill" id="examMode">THI THỬ</span><div class="muted" id="qCounter" style="margin-top:8px">Câu 1/60</div></div>
-    <div class="timer" id="timer">60:00</div>
-   </div>
-   <div class="progress"><div id="progressBar"></div></div>
-   <div class="exam-layout">
+<section id="home">
+
+  <h1 class="page-title">Tổng quan</h1>
+
+  <p class="subtitle">
+    Hệ thống ôn luyện chứng chỉ chuyên môn chứng khoán.
+  </p>
+
+  <div class="grid">
+
     <div class="card">
-     <div class="muted" id="questionTopic">Chuyên đề</div>
-     <div class="question" id="questionText"></div>
-     <div id="answers"></div>
-     <div id="explanation"></div>
-     <div class="actions">
-      <button class="btn btn-outline" onclick="previous()">← Trước</button>
-      <button class="btn btn-light" onclick="toggleFlag()">⚑ Đánh dấu</button>
-      <button class="btn btn-primary" onclick="next()">Tiếp →</button>
-     </div>
-     <button class="btn btn-outline wide" onclick="submitExam()">NỘP BÀI</button>
+      <div class="stat-label">Tổng câu hỏi đã xác minh</div>
+      <div class="stat-number" id="totalQuestions">0</div>
     </div>
+
+    <div class="card">
+      <div class="stat-label">Số câu mặc định</div>
+      <div class="stat-number">60</div>
+    </div>
+
+    <div class="card">
+      <div class="stat-label">Thời gian mô phỏng</div>
+      <div class="stat-number">60 phút</div>
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <h3>Bắt đầu luyện thi</h3>
+
+    <p class="muted">
+      Chọn bài thi 30, 50 hoặc 60 câu.
+      Đề được lấy ngẫu nhiên từ ngân hàng câu hỏi đã nạp.
+    </p>
+
+    <button class="btn btn-primary" onclick="showPage('setup')">
+      Thi thử ngay →
+    </button>
+
+  </div>
+
+  <div class="card">
+
+    <h3>Nguồn đề tham khảo</h3>
+
+    <p class="muted">
+      Mở đề luyện tập tại website nguồn để làm bài và đối chiếu đáp án.
+      Các liên kết này không có nghĩa là LUATCK đã nhập toàn bộ câu hỏi từ nguồn.
+    </p>
+
+    <div id="externalExamLinks"></div>
+
+  </div>
+
+  <div class="notice">
+    LUATCK chỉ sử dụng câu hỏi có đủ đáp án, nguồn tham khảo
+    và trạng thái xác minh. Không sử dụng AI để tự tạo câu hỏi.
+  </div>
+
+</section>
+
+
+<!-- SETUP -->
+
+<section id="setup" class="hidden">
+
+  <h1 class="page-title">Thi thử</h1>
+
+  <p class="subtitle">
+    Mô phỏng bài thi Pháp luật về chứng khoán và thị trường chứng khoán.
+  </p>
+
+  <div class="card" style="max-width:600px">
+
+    <label>Số lượng câu hỏi</label>
+
+    <select id="count">
+      <option value="30">30 câu</option>
+      <option value="50">50 câu</option>
+      <option value="60" selected>60 câu</option>
+    </select>
+
+    <label>Chủ đề</label>
+
+    <select id="category">
+      <option value="all">Tất cả chuyên đề</option>
+      <option value="law">Luật Chứng khoán</option>
+      <option value="company">Công ty đại chúng</option>
+      <option value="offering">Chào bán và phát hành</option>
+      <option value="disclosure">Công bố thông tin</option>
+      <option value="trading">Giao dịch chứng khoán</option>
+      <option value="conduct">Hành vi vi phạm</option>
+    </select>
+
+    <label>Độ khó</label>
+
+    <select id="difficulty">
+      <option value="advanced" selected>Nâng cao – sát luyện thi</option>
+      <option value="all">Tất cả mức độ</option>
+    </select>
+
+    <label>Chế độ</label>
+
+    <select id="mode">
+      <option value="exam">Thi thử – xem đáp án sau khi nộp</option>
+      <option value="practice">Luyện tập – xem giải thích sau mỗi câu</option>
+    </select>
+
+    <button class="btn btn-primary wide" onclick="startExam()">
+      BẮT ĐẦU LÀM BÀI
+    </button>
+
+    <p class="muted" id="setupMessage"></p>
+
+  </div>
+
+</section>
+
+
+<!-- EXAM -->
+
+<section id="exam" class="hidden">
+
+  <div class="exam-head">
+
     <div>
-     <div class="card">
-      <b>Danh sách câu hỏi</b>
-      <p class="muted">Bấm số để chuyển câu.</p>
-      <div class="exam-nav" id="questionNav"></div>
-      <div class="info-line"><span>Đã trả lời</span><b id="answeredCount">0</b></div>
-      <div class="info-line"><span>Đánh dấu</span><b id="flagCount">0</b></div>
-      <div class="info-line"><span>Tổng số câu</span><b id="totalCount">60</b></div>
-     </div>
-     <div class="notice">Đọc kỹ câu hỏi, đặc biệt chú ý các cụm từ “không”, “ngoại trừ”, thời hạn và tỷ lệ phần trăm.</div>
+      <span class="pill" id="examMode">THI THỬ</span>
+      <div class="muted" id="qCounter" style="margin-top:8px">
+        Câu 1/60
+      </div>
     </div>
-   </div>
-  </section>
 
-  <section id="result" class="hidden">
-   <h1 class="page-title">Kết quả bài thi</h1>
-   <div class="card">
+    <div class="timer" id="timer">60:00</div>
+
+  </div>
+
+  <div class="progress">
+    <div id="progressBar"></div>
+  </div>
+
+  <div class="exam-layout">
+
+    <div class="card">
+
+      <div class="muted" id="questionTopic">Chuyên đề</div>
+
+      <div class="question" id="questionText"></div>
+
+      <div id="answers"></div>
+
+      <div id="explanation"></div>
+
+      <div class="actions">
+
+        <button class="btn btn-outline" onclick="previous()">
+          ← Trước
+        </button>
+
+        <button class="btn btn-light" onclick="toggleFlag()">
+          ⚑ Đánh dấu
+        </button>
+
+        <button class="btn btn-primary" onclick="next()">
+          Tiếp →
+        </button>
+
+      </div>
+
+      <button class="btn btn-outline wide" onclick="submitExam()">
+        NỘP BÀI
+      </button>
+
+    </div>
+
+    <div>
+
+      <div class="card">
+
+        <b>Danh sách câu hỏi</b>
+
+        <p class="muted">Bấm số để chuyển câu.</p>
+
+        <div class="exam-nav" id="questionNav"></div>
+
+        <div class="info-line">
+          <span>Đã trả lời</span>
+          <b id="answeredCount">0</b>
+        </div>
+
+        <div class="info-line">
+          <span>Đánh dấu</span>
+          <b id="flagCount">0</b>
+        </div>
+
+        <div class="info-line">
+          <span>Tổng số câu</span>
+          <b id="totalCount">60</b>
+        </div>
+
+      </div>
+
+      <div class="notice">
+        Đọc kỹ câu hỏi, đặc biệt chú ý các cụm từ
+        “không”, “ngoại trừ”, thời hạn và tỷ lệ phần trăm.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- RESULT -->
+
+<section id="result" class="hidden">
+
+  <h1 class="page-title">Kết quả bài thi</h1>
+
+  <div class="card">
+
     <div class="muted">Điểm số</div>
-    <div class="result-score" id="score">0/60</div>
-    <p id="resultMessage"></p>
-    <div class="grid">
-     <div><div class="stat-label">Đúng</div><div class="stat-number" id="rightCount">0</div></div>
-     <div><div class="stat-label">Sai</div><div class="stat-number" id="wrongCount">0</div></div>
-     <div><div class="stat-label">Tỷ lệ đúng</div><div class="stat-number" id="percent">0%</div></div>
-    </div>
-    <div class="actions">
-     <button class="btn btn-primary" onclick="review()">Xem lại đáp án</button>
-     <button class="btn btn-outline" onclick="showPage('setup')">Làm đề mới</button>
-    </div>
-   </div>
-   <div id="reviewList"></div>
-  </section>
 
-  <section id="history" class="hidden">
-   <h1 class="page-title">Lịch sử thi</h1>
-   <p class="subtitle">Lịch sử được lưu trên trình duyệt hiện tại.</p>
-   <div class="card" id="historyList"></div>
-   <button class="btn btn-outline" onclick="clearHistory()">Xóa lịch sử</button>
-  </section>
- </main>
+    <div class="result-score" id="score">0/60</div>
+
+    <p id="resultMessage"></p>
+
+    <div class="grid">
+
+      <div>
+        <div class="stat-label">Đúng</div>
+        <div class="stat-number" id="rightCount">0</div>
+      </div>
+
+      <div>
+        <div class="stat-label">Sai</div>
+        <div class="stat-number" id="wrongCount">0</div>
+      </div>
+
+      <div>
+        <div class="stat-label">Tỷ lệ đúng</div>
+        <div class="stat-number" id="percent">0%</div>
+      </div>
+
+    </div>
+
+    <div class="actions">
+
+      <button class="btn btn-primary" onclick="review()">
+        Xem lại đáp án
+      </button>
+
+      <button class="btn btn-outline" onclick="showPage('setup')">
+        Làm đề mới
+      </button>
+
+    </div>
+
+  </div>
+
+  <div id="reviewList"></div>
+
+</section>
+
+
+<!-- HISTORY -->
+
+<section id="history" class="hidden">
+
+  <h1 class="page-title">Lịch sử thi</h1>
+
+  <p class="subtitle">
+    Lịch sử được lưu trên trình duyệt hiện tại.
+  </p>
+
+  <div class="card" id="historyList"></div>
+
+  <button class="btn btn-outline" onclick="clearHistory()">
+    Xóa lịch sử
+  </button>
+
+</section>
+
+</main>
 </div>
 </div>
+
+
+<!-- COW MASCOT -->
 
 <button class="cow" title="Cố lên nhé!">🐮</button>
-<div class="cow-msg">Cố lên! Mỗi câu đúng là một bước gần hơn đến mục tiêu! 💪</div>
+
+<div class="cow-msg">
+  Cố lên! Mỗi câu đúng là một bước gần hơn đến mục tiêu! 💪
+</div>
+
+
+<!-- QUESTION BANK LOADER -->
+
+<script src="/questions.js"></script>
 
 <script>
-let BANK=[];
-let exam=[],answers=[],flags=[],current=0,seconds=3600,timer=null,mode="exam",ended=false;
 
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+"use strict";
 
-async function loadBank(){
- try{
-  const r=await fetch("/questions.json",{cache:"no-store"});
-  if(!r.ok)throw new Error("Không tìm thấy questions.json");
-  const data=await r.json();
-  BANK=Array.isArray(data)?data:(data.questions||[]);
-  BANK=BANK.filter(q=>
-   q&&typeof q.question==="string"&&
-   Array.isArray(q.options)&&q.options.length===4&&
-   Number.isInteger(q.answer)&&q.answer>=0&&q.answer<4&&
-   q.verified===true&&q.source_url
-  );
-  $("totalQuestions").textContent=BANK.length;
-  $("bankStatus").textContent=BANK.length+" câu đã xác minh";
-  $("setupMessage").textContent=BANK.length
-   ?"Đã tải "+BANK.length+" câu hỏi hợp lệ."
-   :"Ngân hàng chưa có câu hỏi đã xác minh. Hãy bổ sung questions.json.";
- }catch(e){
-  $("bankStatus").textContent="Chưa tải được ngân hàng";
-  $("setupMessage").textContent=e.message;
- }
-}
-function showPage(id,button){
- clearInterval(timer);
- ["home","setup","exam","result","history"].forEach(x=>$(x).classList.toggle("hidden",x!==id));
- document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));
- if(button)button.classList.add("active");
- if(id==="history")renderHistory();
-}
-function startExam(){
- const count=Number($("count").value);
- const cat=$("category").value;
- const difficulty=$("difficulty").value;
- let pool=BANK.filter(q=>(cat==="all"||q.category===cat)&&
-  (difficulty==="all"||q.difficulty==="advanced"));
- if(pool.length<count){
-  $("setupMessage").textContent="Chỉ có "+pool.length+" câu phù hợp đã xác minh. Cần bổ sung ngân hàng trước khi tạo đề "+count+" câu.";
-  return;
- }
- exam=shuffle(pool).slice(0,count);
- answers=Array(count).fill(null);flags=Array(count).fill(false);
- current=0;mode=$("mode").value;ended=false;seconds=3600;
- $("examMode").textContent=mode==="exam"?"THI THỬ":"LUYỆN TẬP";
- $("totalCount").textContent=count;
- showPage("exam");
- renderQuestion();
- startTimer();
-}
-function startTimer(){
- $("timer").textContent="60:00";
- timer=setInterval(()=>{
-  seconds--;
-  $("timer").textContent=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");
-  if(seconds<=0){clearInterval(timer);submitExam(true)}
- },1000);
-}
-function renderQuestion(){
- const q=exam[current];
- $("qCounter").textContent=`Câu ${current+1}/${exam.length}`;
- $("questionTopic").textContent=(q.topic||q.category||"Pháp luật chứng khoán")+" · "+(q.difficulty==="advanced"?"Nâng cao":"Cơ bản");
- $("questionText").textContent=q.question;
- $("progressBar").style.width=((current+1)/exam.length*100)+"%";
- $("answers").innerHTML=q.options.map((o,i)=>{
-  let cls="answer";
-  if(answers[current]===i)cls+=" chosen";
-  if(mode==="practice"&&answers[current]!==null){
-   if(i===q.answer)cls+=" correct";
-   else if(i===answers[current])cls+=" wrong";
+let BANK = [];
+let exam = [];
+let answers = [];
+let flags = [];
+let current = 0;
+let seconds = 3600;
+let timer = null;
+let mode = "exam";
+let ended = false;
+
+const $ = id => document.getElementById(id);
+
+const esc = value => String(value ?? "").replace(
+  /[&<>"']/g,
+  char => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  }[char])
+);
+
+const shuffle = array => {
+  const result = [...array];
+
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
   }
-  return `<button class="${cls}" onclick="choose(${i})"><span class="letter">${"ABCD"[i]}</span><span>${esc(o)}</span></button>`;
- }).join("");
- $("explanation").innerHTML=mode==="practice"&&answers[current]!==null?
-  `<div class="notice" style="margin-top:14px"><b>Đáp án: ${"ABCD"[q.answer]}</b><br>${esc(q.explanation||"Đối chiếu nguồn pháp luật.")}<br><a target="_blank" rel="noopener" href="${esc(q.source_url)}">Mở nguồn câu hỏi / văn bản</a></div>`:"";
- renderNav();
+
+  return result;
+};
+
+
+// LOAD QUESTION BANK
+
+async function loadBank() {
+
+  try {
+
+    if (!window.LUATCK) {
+      throw new Error("Không tìm thấy questions.js");
+    }
+
+    const result = await window.LUATCK.loadQuestionBank();
+
+    BANK = result.questions;
+
+    $("totalQuestions").textContent = BANK.length;
+
+    $("bankStatus").textContent =
+      BANK.length + " câu đã xác minh";
+
+    $("setupMessage").textContent =
+      "Nguồn: " + result.source +
+      " · Đã tải " + BANK.length + " câu.";
+
+  } catch (error) {
+
+    BANK = [];
+
+    $("totalQuestions").textContent = "0";
+
+    $("bankStatus").textContent = "Lỗi tải ngân hàng";
+
+    $("setupMessage").textContent = error.message;
+
+  }
+
 }
-function choose(i){
- if(ended)return;
- if(mode==="practice"&&answers[current]!==null)return;
- answers[current]=i;renderQuestion();
+
+
+// PAGE NAVIGATION
+
+function showPage(id, button) {
+
+  clearInterval(timer);
+
+  ["home","setup","exam","result","history"].forEach(page => {
+    $(page).classList.toggle("hidden", page !== id);
+  });
+
+  document.querySelectorAll(".nav button").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  if (button) {
+    button.classList.add("active");
+  }
+
+  if (id === "history") {
+    renderHistory();
+  }
+
 }
-function renderNav(){
- $("questionNav").innerHTML=exam.map((q,i)=>{
-  let cls="qnum";
-  if(answers[i]!==null)cls+=" done";
-  if(i===current)cls+=" current";
-  if(flags[i])cls+=" flag";
-  return `<button class="${cls}" onclick="jump(${i})">${i+1}</button>`;
- }).join("");
- $("answeredCount").textContent=answers.filter(x=>x!==null).length+"/"+exam.length;
- $("flagCount").textContent=flags.filter(Boolean).length;
+
+
+// START EXAM
+
+function startExam() {
+
+  const count = Number($("count").value);
+  const category = $("category").value;
+  const difficulty = $("difficulty").value;
+
+  let pool = BANK.filter(question => {
+
+    const categoryOK =
+      category === "all" ||
+      question.category === category;
+
+    const difficultyOK =
+      difficulty === "all" ||
+      question.difficulty === "advanced";
+
+    return categoryOK && difficultyOK;
+
+  });
+
+  if (pool.length < count) {
+
+    $("setupMessage").textContent =
+      "Chỉ có " + pool.length +
+      " câu phù hợp đã xác minh. Cần bổ sung ngân hàng trước khi tạo đề " +
+      count + " câu.";
+
+    return;
+
+  }
+
+  exam = shuffle(pool).slice(0, count);
+
+  answers = Array(count).fill(null);
+
+  flags = Array(count).fill(false);
+
+  current = 0;
+
+  mode = $("mode").value;
+
+  ended = false;
+
+  seconds = 3600;
+
+  $("examMode").textContent =
+    mode === "exam" ? "THI THỬ" : "LUYỆN TẬP";
+
+  $("totalCount").textContent = count;
+
+  showPage("exam");
+
+  renderQuestion();
+
+  startTimer();
+
 }
-function jump(i){current=i;renderQuestion()}
-function next(){if(current<exam.length-1){current++;renderQuestion()}}
-function previous(){if(current>0){current--;renderQuestion()}}
-function toggleFlag(){flags[current]=!flags[current];renderNav()}
-function submitExam(auto=false){
- if(ended)return;
- const unanswered=answers.filter(x=>x===null).length;
- if(!auto&&unanswered&&!confirm("Còn "+unanswered+" câu chưa trả lời. Bạn vẫn muốn nộp bài?"))return;
- ended=true;clearInterval(timer);
- const right=exam.filter((q,i)=>answers[i]===q.answer).length;
- const wrong=exam.length-right;
- const pct=Math.round(right/exam.length*100);
- $("score").textContent=right+"/"+exam.length;
- $("rightCount").textContent=right;
- $("wrongCount").textContent=wrong;
- $("percent").textContent=pct+"%";
- $("resultMessage").textContent=auto?"Đã tự động nộp bài vì hết giờ.": "Bạn đã hoàn thành bài thi.";
- const h=JSON.parse(localStorage.getItem("luatckV3History")||"[]");
- h.unshift({date:new Date().toLocaleString("vi-VN"),right,total:exam.length,pct});
- localStorage.setItem("luatckV3History",JSON.stringify(h.slice(0,30)));
- showPage("result");renderHistory();
+
+
+// TIMER
+
+function startTimer() {
+
+  updateTimer();
+
+  timer = setInterval(() => {
+
+    seconds--;
+
+    updateTimer();
+
+    if (seconds <= 0) {
+
+      clearInterval(timer);
+
+      submitExam(true);
+
+    }
+
+  }, 1000);
+
 }
-function review(){
- $("reviewList").innerHTML=exam.map((q,i)=>{
-  const user=answers[i]===null?"Chưa trả lời":("ABCD"[answers[i]]+". "+q.options[answers[i]]);
-  return `<div class="card"><b>Câu ${i+1}. ${esc(q.question)}</b>
-  <p class="muted">Bạn chọn: ${esc(user)}</p>
-  <p style="color:var(--green)"><b>Đáp án đúng: ${"ABCD"[q.answer]}. ${esc(q.options[q.answer])}</b></p>
-  <p>${esc(q.explanation||"")}</p>
-  <a href="${esc(q.source_url)}" target="_blank" rel="noopener">Nguồn tham khảo</a></div>`;
- }).join("");
+
+
+function updateTimer() {
+
+  const minutes = Math.floor(seconds / 60);
+
+  const remainingSeconds = seconds % 60;
+
+  $("timer").textContent =
+    String(minutes).padStart(2, "0") +
+    ":" +
+    String(remainingSeconds).padStart(2, "0");
+
 }
-function renderHistory(){
- const h=JSON.parse(localStorage.getItem("luatckV3History")||"[]");
- $("historyList").innerHTML=h.length?h.map(x=>
-  `<div class="history-row"><span>${esc(x.date)}</span><b>${x.right}/${x.total} · ${x.pct}%</b></div>`
- ).join(""):"Chưa có lịch sử làm bài.";
+
+
+// RENDER QUESTION
+
+function renderQuestion() {
+
+  const question = exam[current];
+
+  $("qCounter").textContent =
+    `Câu ${current + 1}/${exam.length}`;
+
+  $("questionTopic").textContent =
+    (question.topic || question.category || "Pháp luật chứng khoán") +
+    " · " +
+    (question.difficulty === "advanced" ? "Nâng cao" : "Cơ bản");
+
+  $("questionText").textContent = question.question;
+
+  $("progressBar").style.width =
+    ((current + 1) / exam.length * 100) + "%";
+
+  $("answers").innerHTML = question.options.map((option, index) => {
+
+    let className = "answer";
+
+    if (answers[current] === index) {
+      className += " chosen";
+    }
+
+    if (mode === "practice" && answers[current] !== null) {
+
+      if (index === question.answer) {
+        className += " correct";
+      } else if (index === answers[current]) {
+        className += " wrong";
+      }
+
+    }
+
+    return `
+      <button class="${className}" onclick="choose(${index})">
+        <span class="letter">${"ABCD"[index]}</span>
+        <span>${esc(option)}</span>
+      </button>
+    `;
+
+  }).join("");
+
+  if (mode === "practice" && answers[current] !== null) {
+
+    $("explanation").innerHTML = `
+      <div class="notice" style="margin-top:14px">
+        <b>Đáp án: ${"ABCD"[question.answer]}</b>
+        <br>
+        ${esc(question.explanation || "Đối chiếu nguồn pháp luật.")}
+        <br>
+        <a class="source-link"
+           target="_blank"
+           rel="noopener noreferrer"
+           href="${esc(question.source_url)}">
+           Mở nguồn câu hỏi / văn bản
+        </a>
+      </div>
+    `;
+
+  } else {
+
+    $("explanation").innerHTML = "";
+
+  }
+
+  renderNav();
+
 }
-function clearHistory(){
- if(confirm("Xóa toàn bộ lịch sử?")){
-  localStorage.removeItem("luatckV3History");renderHistory();
- }
+
+
+// ANSWER
+
+function choose(index) {
+
+  if (ended) return;
+
+  if (mode === "practice" && answers[current] !== null) {
+    return;
+  }
+
+  answers[current] = index;
+
+  renderQuestion();
+
 }
+
+
+// QUESTION NAVIGATION
+
+function renderNav() {
+
+  $("questionNav").innerHTML = exam.map((question, index) => {
+
+    let className = "qnum";
+
+    if (answers[index] !== null) {
+      className += " done";
+    }
+
+    if (index === current) {
+      className += " current";
+    }
+
+    if (flags[index]) {
+      className += " flag";
+    }
+
+    return `
+      <button class="${className}" onclick="jump(${index})">
+        ${index + 1}
+      </button>
+    `;
+
+  }).join("");
+
+  $("answeredCount").textContent =
+    answers.filter(answer => answer !== null).length +
+    "/" + exam.length;
+
+  $("flagCount").textContent =
+    flags.filter(Boolean).length;
+
+}
+
+
+function jump(index) {
+
+  current = index;
+
+  renderQuestion();
+
+}
+
+
+function next() {
+
+  if (current < exam.length - 1) {
+
+    current++;
+
+    renderQuestion();
+
+  }
+
+}
+
+
+function previous() {
+
+  if (current > 0) {
+
+    current--;
+
+    renderQuestion();
+
+  }
+
+}
+
+
+function toggleFlag() {
+
+  flags[current] = !flags[current];
+
+  renderNav();
+
+}
+
+
+// SUBMIT EXAM
+
+function submitExam(auto = false) {
+
+  if (ended) return;
+
+  const unanswered = answers.filter(answer => answer === null).length;
+
+  if (
+    !auto &&
+    unanswered > 0 &&
+    !confirm(
+      "Còn " + unanswered +
+      " câu chưa trả lời. Bạn vẫn muốn nộp bài?"
+    )
+  ) {
+    return;
+  }
+
+  ended = true;
+
+  clearInterval(timer);
+
+  const right = exam.filter((question, index) =>
+    answers[index] === question.answer
+  ).length;
+
+  const wrong = exam.length - right;
+
+  const percent = Math.round(right / exam.length * 100);
+
+  $("score").textContent = right + "/" + exam.length;
+
+  $("rightCount").textContent = right;
+
+  $("wrongCount").textContent = wrong;
+
+  $("percent").textContent = percent + "%";
+
+  $("resultMessage").textContent = auto
+    ? "Đã tự động nộp bài vì hết giờ."
+    : "Bạn đã hoàn thành bài thi.";
+
+  const history = JSON.parse(
+    localStorage.getItem("luatckV3History") || "[]"
+  );
+
+  history.unshift({
+    date: new Date().toLocaleString("vi-VN"),
+    right,
+    total: exam.length,
+    pct: percent
+  });
+
+  localStorage.setItem(
+    "luatckV3History",
+    JSON.stringify(history.slice(0, 30))
+  );
+
+  showPage("result");
+
+}
+
+
+// REVIEW ANSWERS
+
+function review() {
+
+  $("reviewList").innerHTML = exam.map((question, index) => {
+
+    const userAnswer =
+      answers[index] === null
+        ? "Chưa trả lời"
+        : "ABCD"[answers[index]] + ". " +
+          question.options[answers[index]];
+
+    return `
+      <div class="card">
+
+        <b>
+          Câu ${index + 1}. ${esc(question.question)}
+        </b>
+
+        <p class="muted">
+          Bạn chọn: ${esc(userAnswer)}
+        </p>
+
+        <p style="color:var(--green)">
+          <b>
+            Đáp án đúng:
+            ${"ABCD"[question.answer]}.
+            ${esc(question.options[question.answer])}
+          </b>
+        </p>
+
+        <p>${esc(question.explanation || "")}</p>
+
+        <a class="source-link"
+           href="${esc(question.source_url)}"
+           target="_blank"
+           rel="noopener noreferrer">
+           Nguồn tham khảo
+        </a>
+
+      </div>
+    `;
+
+  }).join("");
+
+}
+
+
+// HISTORY
+
+function renderHistory() {
+
+  const history = JSON.parse(
+    localStorage.getItem("luatckV3History") || "[]"
+  );
+
+  $("historyList").innerHTML = history.length
+
+    ? history.map(item => `
+        <div class="history-row">
+          <span>${esc(item.date)}</span>
+          <b>${item.right}/${item.total} · ${item.pct}%</b>
+        </div>
+      `).join("")
+
+    : '<div class="empty">Chưa có lịch sử làm bài.</div>';
+
+}
+
+
+function clearHistory() {
+
+  if (confirm("Xóa toàn bộ lịch sử?")) {
+
+    localStorage.removeItem("luatckV3History");
+
+    renderHistory();
+
+  }
+
+}
+
+
+// EXTERNAL EXAM LINKS
+
+function renderExternalExams() {
+
+  const container = $("externalExamLinks");
+
+  if (!window.LUATCK) {
+
+    container.innerHTML =
+      '<div class="empty">Không tải được danh sách nguồn đề.</div>';
+
+    return;
+
+  }
+
+  container.innerHTML =
+    window.LUATCK.externalExams.map(item => `
+
+      <div class="bank-link">
+
+        <span>${esc(item.name)}</span>
+
+        <a href="${esc(item.url)}"
+           target="_blank"
+           rel="noopener noreferrer">
+          Mở đề →
+        </a>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+// INITIALIZE
+
+renderExternalExams();
+
 loadBank();
+
 </script>
+
 </body>
 </html>
